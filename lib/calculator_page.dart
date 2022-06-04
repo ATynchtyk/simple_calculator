@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
@@ -5,6 +7,7 @@ class CalculatorPage extends StatefulWidget {
   const CalculatorPage({Key key}) : super(key: key);
 
   @override
+  
   _CalculatorPageState createState() => _CalculatorPageState();
 }
 
@@ -16,29 +19,36 @@ class _CalculatorPageState extends State<CalculatorPage> {
   double resultFonSize = 48.0;
 
   buttonPressed(String buttonText) {
-    setState(
-      () {
-        if (buttonText == "c") {
+    setState(() {
+      if (buttonText == "c") {
+        equation = "0";
+        result = "0";
+        equationFontSize = 38.0;
+        resultFonSize = 48.0;
+
+      } 
+      
+      else if (buttonText == "<=") {
+        equationFontSize = 48.0;
+        resultFonSize = 38.0;
+        equation = equation.substring(0, equation.length - 1);
+        if (equation == "") {
           equation = "0";
-          result = "0";
-          equationFontSize = 38.0;
-          resultFonSize = 48.0;
-        } else if (buttonText == "<=") {
-          equationFontSize = 48.0;
-          resultFonSize = 38.0;
-          equation = equation.substring(0, equation.length - 1);
-          if (equation == "") {
-            equation = "0";
-          }
-        } else if (buttonText == "=") {
-          equationFontSize = 38.0;
-          resultFonSize = 48.0;
+        }
+
+      }
+      
+       else if (buttonText == "＝") {
+        equationFontSize = 38.0;
+        resultFonSize = 48.0;
 
           expression = equation;
-          expression = equation.replaceAll('×', '*');
-          expression = equation.replaceAll('＋', '/');
+          expression = expression.replaceAll('×', '*');
+          expression = expression.replaceAll('÷', '/');
+          // expression = expression.replaceAll('＋', '＋');
 
           try {
+            
             Parser p = new Parser();
             Expression exp = p.parse(expression);
 
@@ -47,21 +57,29 @@ class _CalculatorPageState extends State<CalculatorPage> {
           } catch (e) {
             result = "Error";
           }
-        } else {
-          equationFontSize = 48.0;
-          resultFonSize = 38.0;
-          if (equation == "0") {
-            equation == buttonText;
-          } else {
-            equation = equation + buttonText;
-          }
+       
+      } 
+      
+      else {
+        equationFontSize = 48.0;
+        resultFonSize = 38.0;
+        if (equation == "0") {
+          equation = buttonText;
         }
-      },
-    );
+        
+         else {
+          equation = equation + buttonText;
+        }
+      }
+    });
   }
 
   Widget buildButton(
-      String buttonText, double buttonHeight, Color  ButtonColor) {
+      
+      String buttonText,
+      double buttonHeight,
+   
+      Color ButtonColor) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.1 * buttonHeight,
       color: ButtonColor,
